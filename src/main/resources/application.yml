@@ -1,0 +1,17 @@
+#API config
+
+server:
+  port: 8081
+
+# Database config
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/concessionaire
+    username: root
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
