@@ -1,7 +1,7 @@
 package com.procesos.concessionaire.controller;
 
 import com.procesos.concessionaire.model.User;
-import com.procesos.concessionaire.service.UserService;
+import com.procesos.concessionaire.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,29 +19,29 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserRestController {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
 
     @GetMapping("/")
     public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+        return ResponseEntity.ok(userServiceImpl.getAllUsers());
     }
 
     @PostMapping("/")
     public ResponseEntity<Void> saveUser(@RequestBody User user) {
-        userService.saveUser(user);
+        userServiceImpl.saveUser(user);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getById/")
     public ResponseEntity<User> getOneUser(@RequestBody User user) {
-        return ResponseEntity.ok(userService.getOneUser(user));
+        return ResponseEntity.ok(userServiceImpl.getOneUser(user));
     }
 
     @PutMapping("/")
     public ResponseEntity<Void> updateUser(@RequestBody User user) {
-        userService.updateUser(user);
+        userServiceImpl.updateUser(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
