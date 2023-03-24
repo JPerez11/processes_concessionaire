@@ -25,20 +25,20 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User getOneUser(User user) {
-        return userRepository.findById(user.getId()).orElseThrow( () -> new RuntimeException("User not found") );
+        return userRepository.findById(user.getId()).get();
     }
 
     @Override
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow( () -> new RuntimeException("User not found") );
+        return userRepository.findById(id).get();
     }
 
     @Override
     public void updateUser(User user) {
-        User userRequest = userRepository.findById(user.getId()).orElse(null);
-        if (userRequest == null) {
-            throw new RuntimeException("User not found");
-        }
+        User userRequest = userRepository.findById(user.getId()).get();
+//        if (userRequest == null) {
+//            throw new RuntimeException("User not found");
+//        }
         userRequest.setName( user.getName() );
         userRequest.setLastName( user.getLastName() );
         userRequest.setEmail( user.getEmail() );
