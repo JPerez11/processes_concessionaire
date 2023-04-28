@@ -1,5 +1,6 @@
 package com.procesos.concessionaire.service;
 
+import com.procesos.concessionaire.exception.NoDataFoundException;
 import com.procesos.concessionaire.model.User;
 import com.procesos.concessionaire.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,28 +26,36 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User getOneUser(User user) {
-        return userRepository.findById(user.getId()).get();
+        User userDb = userRepository.findUserById(user.getId());
+        if (userDb == null) {
+            throw new NoDataFoundException();
+        }
+        return userDb;
     }
 
     @Override
     public User getUserById(Long id) {
-        return userRepository.findById(id).get();
+        User userDb = userRepository.findUserById(id);
+        if (userDb == null) {
+            throw new NoDataFoundException();
+        }
+        return userDb;
     }
 
     @Override
-    public void updateUser(User user) {
-        User userRequest = userRepository.findById(user.getId()).get();
-//        if (userRequest == null) {
-//            throw new RuntimeException("User not found");
-//        }
-        userRequest.setName( user.getName() );
-        userRequest.setLastName( user.getLastName() );
-        userRequest.setEmail( user.getEmail() );
-        userRequest.setPassword( user.getPassword() );
-        userRequest.setAddress( user.getAddress() );
-        userRequest.setBirthday( user.getBirthday() );
+    public void updateUser(User user, Long id) {
+        User userDb = userRepository.findUserById(id);
+        if (userDb == null) {
+            throw new NoDataFoundException();
+        }
+        userDb.setName( user.getName() );
+        userDb.setLastName( user.getLastName() );
+        userDb.setEmail( user.getEmail() );
+        userDb.setPassword( user.getPassword() );
+        userDb.setAddress( user.getAddress() );
+        userDb.setBirthday( user.getBirthday() );
 
-        userRepository.save(user);
+        userRepository.save(userDb);
     }
 
 

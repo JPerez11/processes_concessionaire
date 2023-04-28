@@ -1,5 +1,6 @@
 package com.procesos.concessionaire.service;
 
+import com.procesos.concessionaire.dto.UserLogin;
 import com.procesos.concessionaire.model.User;
 
 import java.util.List;
@@ -14,6 +15,6 @@ public interface IUserService {
 
     User getUserById(Long id);
 
-    void updateUser(User user);
+    void updateUser(User user, Long id);
 
 }
