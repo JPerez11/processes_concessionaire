@@ -1,20 +1,18 @@
 package com.procesos.concessionaire.service;
 
-import com.procesos.concessionaire.dto.UserLogin;
+import com.procesos.concessionaire.dto.UserRequestDto;
 import com.procesos.concessionaire.model.User;
 
 import java.util.List;
 
 public interface IUserService {
 
-    void saveUser(User user);
+    void saveUser(UserRequestDto user);
 
     List<User> getAllUsers();
 
-    User getOneUser(User user);
-
     User getUserById(Long id);
 
-    void updateUser(User user, Long id);
+    void updateUser(UserRequestDto user, Long id);
 
 }

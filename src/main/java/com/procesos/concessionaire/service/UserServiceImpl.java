@@ -1,6 +1,10 @@
 package com.procesos.concessionaire.service;
 
+import com.procesos.concessionaire.dto.UserRequestDto;
+import com.procesos.concessionaire.exception.BadRequestException;
 import com.procesos.concessionaire.exception.NoDataFoundException;
+import com.procesos.concessionaire.exception.UserAlreadyExistsException;
+import com.procesos.concessionaire.mapper.IUserRequestMapper;
 import com.procesos.concessionaire.model.User;
 import com.procesos.concessionaire.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +17,17 @@ import java.util.List;
 public class UserServiceImpl implements IUserService {
 
     private final IUserRepository userRepository;
+    private final IUserRequestMapper requestMapper;
 
     @Override
-    public void saveUser(User user) {
-        userRepository.save(user);
+    public void saveUser(UserRequestDto user) {
+        if (user == null) {
+            throw new BadRequestException();
+        }
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new UserAlreadyExistsException();
+        }
+        userRepository.save(requestMapper.toUser(user));
     }
 
     @Override
@@ -24,14 +35,6 @@ public class UserServiceImpl implements IUserService {
         return userRepository.findAll();
     }
 
-    @Override
-    public User getOneUser(User user) {
-        User userDb = userRepository.findUserById(user.getId());
-        if (userDb == null) {
-            throw new NoDataFoundException();
-        }
-        return userDb;
-    }
 
     @Override
     public User getUserById(Long id) {
@@ -43,14 +46,16 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void updateUser(User user, Long id) {
+    public void updateUser(UserRequestDto user, Long id) {
+        if (user == null) {
+            throw new BadRequestException();
+        }
         User userDb = userRepository.findUserById(id);
         if (userDb == null) {
             throw new NoDataFoundException();
         }
         userDb.setName( user.getName() );
         userDb.setLastName( user.getLastName() );
-        userDb.setEmail( user.getEmail() );
         userDb.setPassword( user.getPassword() );
         userDb.setAddress( user.getAddress() );
         userDb.setBirthday( user.getBirthday() );

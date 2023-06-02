@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.procesos.concessionaire.utils.message.Constants.MESSAGE;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
@@ -24,8 +26,7 @@ public class AuthController {
     public ResponseEntity<Map<String, String>> login(@RequestBody UserLogin userLogin) {
         String token = loginService.login(userLogin);
         Map<String, String> response = new HashMap<>();
-        response.put("message", token);
-
+        response.put(MESSAGE, token);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(response);
     }

@@ -1,4 +1,4 @@
-package com.procesos.concessionaire.message;
+package com.procesos.concessionaire.utils.message;
 
 public enum MessageController {
 
